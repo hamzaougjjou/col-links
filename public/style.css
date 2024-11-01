@@ -1,0 +1,55 @@
+* {
+    scroll-behavior: smooth;
+}
+
+.rtl {
+    direction: rtl;
+}
+
+.ltr {
+    direction: ltr;
+}
+
+/* إعداد الخلفية المتحركة */
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(-45deg, #a1c4fd, #c2e9fb, #05f5fdec, #96e6a1, #fbc2eb);
+    background-size: 200% 200%;
+    font-family: 'Tajawal', sans-serif;
+}
+
+header {
+    background: linear-gradient(-45deg, #a1c4fd, #c2e9fb, #05f5fdec, #96e6a1, #fbc2eb);
+    background-size: 400% 200%;
+}
+
+
+
+
+
+.typing-wrapper {
+    /*This part is important for centering*/
+    display: grid;
+    place-items: center;
+  }
+  
+  .typing-demo {
+    animation: typing 2s steps(100), blink 1s step-end infinite alternate;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: none;
+  }
+  
+  @keyframes typing {
+    from {
+      width: 0;
+      border-right: 3px solid;
+    }
+  }
+      
+  @keyframes blink {
+    50% {
+      border-color: transparent
+    }
+  }
