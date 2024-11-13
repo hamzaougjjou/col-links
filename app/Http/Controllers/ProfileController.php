@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Link;
+use App\Models\Image;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -18,9 +22,12 @@ class ProfileController extends Controller
         $links_click_count = Link::where("user_id" , auth()->id() )
         ->sum("clicks");
 
+        $images  = Image::all();
         
         return view("dashboard")
-        ->with( compact("links_click_count"));
+        ->with( compact("links_click_count"))
+        ->with( "user" , auth()->user())
+        ->with( compact("images"));
     }
     /**
      * Display the user's profile form.
@@ -35,17 +42,47 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request)
     {
-        $request->user()->fill($request->validated());
+        $user = Auth::user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Validate the request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title' => 'nullable|string|max:255',
+            'about' => 'nullable|string|max:1000',
+        ]);
+
+        // Update the user’s basic information
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->title = $request->title;
+        $user->about = $request->about;
+
+
+        // Handle profile image upload
+        if ($request->hasFile('profile_image')) {
+            if ($user->image) {
+                Storage::delete($user->image); // Delete old image
+            }
+            $user->image = "storage/" . $request->file('profile_image')->store('uploads/profile/profiles', 'public');
         }
 
-        $request->user()->save();
+        // Handle cover image upload
+        if ($request->hasFile('cover_image')) {
+            if ($user->cover_image) {
+                Storage::delete($user->cover_image); // Delete old cover image
+            }
+            $user->cover_image = "storage/" . $request->file('cover_image')->store('uploads/profile/covers', 'public');
+        }
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // Save changes
+        $user->save();
+
+        return back()->with('success', 'Profile updated successfully.');
     }
 
     /**

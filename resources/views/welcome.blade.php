@@ -3,11 +3,9 @@
 
 
 <link rel="stylesheet" href="{{ asset('homeSlider.css') }}">
-
-<!-- GSAP and ScrollTrigger Scripts -->
+<!-- GSAP and ScrollTrigger Scripts with defer -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
-
 
 
 
@@ -47,14 +45,14 @@
                             class="uppercase py-2 px-4 rounded-lg bg-pink-500 border-2 border-transparent text-white text-md mr-4 hover:bg-pink-400">
                             ابدأ الان
                         </a>
-                        <a href="#"
+                        <a href="#how-to-use"
                             class="uppercase py-2 px-4 rounded-lg bg-transparent border-2 border-pink-500 text-pink-500 dark:text-white hover:bg-pink-500 hover:text-white text-md">
                             كيفة الاستخدام
                         </a>
                     </div>
                 </div>
                 <div class="hidden sm:flex relative w-[40%]
-                    bg-repd-900 flex justify-center items-center
+                    bg-repd-900 justify-center items-center
                     ">
                     <img src="./statics/iphone1.png" class="w-[600px]" />
                 </div>
@@ -114,8 +112,8 @@
             </svg>
         </i>
         <ul class="carousel overflow-hidden
-            mx-auto w-full
-            ">
+            mx-auto w-full rtl
+            " dir="rtl">
 
             <div class="flex-none carousel-item max-w-[calc(100%-20px)] w-[400px] bg-orange-400 p-1 rounded-md">
                 <!-- القسم الرئيسي للمستخدم -->
@@ -284,7 +282,7 @@
 
     <!-- =================================================================================================== -->
 
-    <section class="py-16 rtl section">
+    <section class="pt-16 rtl section">
         <div class="container mx-auto text-center">
             <h2 class="text-3xl font-semibold mb-8">مميزات موقعنا</h2>
             <div class="flex flex-wrap justify-center gap-8">
@@ -309,11 +307,11 @@
         </div>
     </section>
 
-    <section class="text-blue-700 py-8  section
-        bg-no-repeat bg-cover bg-cover mt-2 bg-transparent
-        "
-        style="background-image: url('https://img.freepik.com/free-vector/gradient-smooth-background_23-2148973716.jpg?t=st=1729621119~exp=1729624719~hmac=d05a203b9f3bb90e4c7daeb7fdbe7fcbd5d68e57caea854603619a466c483f28&w=740');"
-        id="how-to-use">
+    <section
+    id="how-to-use"
+    class="text-blue-700 py-8  section
+        bg-no-repeat bg-cover mt-16 bg-white/40
+        " >
 
         <div class="p-8 rtl font-bold">
             <h2 class="text-3xl font-semibold text-green-600">كيف يعمل الموقع؟</h2>
@@ -424,7 +422,7 @@
     <section class="py-16 text-center text-white section">
         <h2 class="text-3xl font-semibold mb-4">ابدأ الآن!</h2>
         <p class="text-lg mb-6">إنشاء صفحتك الشخصية أصبح أسهل من أي وقت مضى.</p>
-        <a href="#" class="bg-blue-600 py-3 px-6 rounded-lg text-lg font-bold hover:bg-blue-700 transition">إنشاء
+        <a href="{{route('profile')}}" class="bg-blue-600 py-3 px-6 rounded-lg text-lg font-bold hover:bg-blue-700 transition">إنشاء
             صفحة</a>
     </section>
 
@@ -451,16 +449,6 @@
 
 
 </div>
-
-<!-- JavaScript to toggle the menu -->
-<script>
-    const menuBtn = document.getElementById('menu-btn');
-    const menu = document.getElementById('menu');
-
-    menuBtn.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-    });
-</script>
 
 <script src="{{asset('./script.js')}}"></script>
 

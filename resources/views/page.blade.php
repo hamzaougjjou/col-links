@@ -8,10 +8,10 @@
         {{ $data->user->name}} -
         {{ $data->user->title }}
     </title>
-    
 
-    <link rel="shortcut icon" href="{{asset("/statics/logo.png")}}" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="shortcut icon" href="{{asset(path: "/statics/logo.png")}}" type="image/x-icon">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
     <style>
         :root {
             --background-color: #1c1c1c;
@@ -22,18 +22,52 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: var(--background-color);
+            /* background-color: var(--background-color); */
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
+            overflow: hidden;
         }
+
+        .container {
+            margin-top: 15px;
+            width: fit-content;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 2px;
+            z-index: 99999;
+            min-height: 90vh;
+            border-radius: 6px;
+            overflow: hidden;
+            max-width: 100%;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+        }
+
+        .cover {
+            background-color: #ffffff3e;
+            max-width: 100%;
+            width: 500px;
+            text-align: center;
+            background-image: url("{{asset($data->user->cover_image)}}");
+            background-position: center center;
+            background-size: cover;
+            position: relative;
+        }
+
+        /* .cover-after{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #ff00006e;
+        top:0;
+        left:0;
+        z-index: 1;
+    } */
 
         .profile {
             display: flex;
+            z-index: 999;
             flex-direction: column;
             align-items: center;
             margin-bottom: 30px;
@@ -42,6 +76,7 @@
         .profile-image {
             background: #fff;
             width: 120px;
+            z-index: 999;
             height: 120px;
             border-radius: 50%;
             border: 4px solid white;
@@ -128,11 +163,12 @@
         }
 
 
-        .visit-websit{
-            position:fixed;
-            right:20px;
-            bottom:20px;
-            border-radius:50%;
+        .visit-websit {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 99999999;
+            border-radius: 50%;
             background-color: #ffffff;
             padding: 1px;
             display: flex;
@@ -140,83 +176,265 @@
             justify-content: center;
             cursor: pointer;
         }
-        .visit-websit::before{
-            content:"visit web site";
-            position:absolute;
-            color: #fbbf24;
+
+        .visit-websit::before {
+            content: "visit web site";
+            position: absolute;
+            color: #ffffff;
             width: max-content;
             top: -15px;
             right: 0;
             font-weight: bold;
             /* background-color: #ffffff; */
         }
+
+
+
+
+        /* ======================================= */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper {
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            background: linear-gradient(180deg, #04fafd, 5%, #119dff, 50%, #030423);
+            position: absolute;
+        }
+
+        .wrapper h1 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            font-family: sans-serif;
+            letter-spacing: 1px;
+            word-spacing: 2px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: 888;
+            text-transform: uppercase;
+        }
+
+        .wrapper div {
+            height: 60px;
+            width: 60px;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            border-radius: 50px;
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            animation: 4s linear infinite;
+        }
+
+        div .dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.5);
+            position: absolute;
+            top: 20%;
+            right: 20%;
+        }
+
+        .wrapper div:nth-child(1) {
+            top: 20%;
+            left: 20%;
+            animation: animate 8s linear infinite;
+        }
+
+        .wrapper div:nth-child(2) {
+            top: 60%;
+            left: 80%;
+            animation: animate 10s linear infinite;
+        }
+
+        .wrapper div:nth-child(3) {
+            top: 40%;
+            left: 40%;
+            animation: animate 3s linear infinite;
+        }
+
+        .wrapper div:nth-child(4) {
+            top: 66%;
+            left: 30%;
+            animation: animate 7s linear infinite;
+        }
+
+        .wrapper div:nth-child(5) {
+            top: 90%;
+            left: 10%;
+            animation: animate 9s linear infinite;
+        }
+
+        .wrapper div:nth-child(6) {
+            top: 30%;
+            left: 60%;
+            animation: animate 5s linear infinite;
+        }
+
+        .wrapper div:nth-child(7) {
+            top: 70%;
+            left: 20%;
+            animation: animate 8s linear infinite;
+        }
+
+        .wrapper div:nth-child(8) {
+            top: 75%;
+            left: 60%;
+            animation: animate 10s linear infinite;
+        }
+
+        .wrapper div:nth-child(9) {
+            top: 50%;
+            left: 50%;
+            animation: animate 6s linear infinite;
+        }
+
+        .wrapper div:nth-child(10) {
+            top: 45%;
+            left: 20%;
+            animation: animate 10s linear infinite;
+        }
+
+        .wrapper div:nth-child(11) {
+            top: 10%;
+            left: 90%;
+            animation: animate 9s linear infinite;
+        }
+
+        .wrapper div:nth-child(12) {
+            top: 20%;
+            left: 70%;
+            animation: animate 7s linear infinite;
+        }
+
+        .wrapper div:nth-child(13) {
+            top: 20%;
+            left: 20%;
+            animation: animate 8s linear infinite;
+        }
+
+        .wrapper div:nth-child(14) {
+            top: 60%;
+            left: 5%;
+            animation: animate 6s linear infinite;
+        }
+
+        .wrapper div:nth-child(15) {
+            top: 90%;
+            left: 80%;
+            animation: animate 9s linear infinite;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: scale(0) translateY(0) rotate(70deg);
+            }
+
+            100% {
+                transform: scale(1.3) translateY(-100px) rotate(360deg);
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="profile">
-
-        @if(auth()->user()->image)
-            <img class="profile-image" src="{{asset(auth()->user()->image)}}" alt="{{auth()->user()->name}} profile" />
-        @else
-            <svg class="profile-image" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#000000"
-                    d="M628.736 528.896A416 416 0 0 1 928 928H96a415.872 415.872 0 0 1 299.264-399.104L512 704l116.736-175.104zM720 304a208 208 0 1 1-416 0 208 208 0 0 1 416 0z" />
-            </svg>
-        @endif
-
-        <h1 style="margin-top: 10px;">
-            {{ $data->user->name}}
-        </h1>
-        <h2 style="margin-top: 20px;">
-            {{ $data->user->title}}
-        </h2>
+    <div class="wrapper">
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
     </div>
 
-    <div class="links">
+    <div class="container">
+        <div class="profile">
+
+            <div class="cover">
+                <!-- <div class="cover-after"></div> -->
+                @if($data->user->image)
+                    <img class="profile-image" src="{{asset($data->user->image)}}" alt="{{$data->user->name}} profile" />
+                @else
+                    <svg class="profile-image" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#000000"
+                            d="M628.736 528.896A416 416 0 0 1 928 928H96a415.872 415.872 0 0 1 299.264-399.104L512 704l116.736-175.104zM720 304a208 208 0 1 1-416 0 208 208 0 0 1 416 0z" />
+                    </svg>
+                @endif
+
+                <h1 style="margin-top: 10px;">
+                    {{ $data->user->name}}
+                </h1>
+            </div>
+            <h2 style="margin-top: 20px;">
+                {{ $data->user->title}}
+            </h2>
+        </div>
+
+        <div class="links">
 
 
-        @foreach ($data->user->links as $link)
+            @foreach ($data->user->links->sortByDesc('created_at') as $link)
 
-            <a href="{{route("redirect", $link->path)}}" target="_blank" class="link-button">
+                <a href="{{route("redirect", $link->path)}}" target="_blank" class="link-button"
+                title="{{ $link->title }}"
+                >
 
-                <svg fill="#fff" height="80px" width="80px" class="link-icon" version="1.1" id="Capa_1"
-                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 392.62 392.62" xml:space="preserve">
-                    <g>
-                        <path
-                            d="M232.756,196.855c-7.949-2.321-16.282,2.233-18.609,10.184c-5.613,19.181-21.23,33.669-40.757,37.813
-                                    c-29.202,6.202-58.008-12.521-64.205-41.727s12.521-58.009,41.727-64.206c8.104-1.719,13.279-9.683,11.56-17.786
-                                    c-1.72-8.104-9.683-13.284-17.787-11.56c-45.387,9.631-74.477,54.392-64.846,99.778c8.387,39.525,43.41,66.688,82.293,66.688
-                                    c5.767,0,11.624-0.599,17.486-1.843c30.34-6.437,54.604-28.942,63.322-58.732C245.267,207.514,240.708,199.182,232.756,196.855z" />
-                        <path
-                            d="M198.131,125.633c-28.867,11.763-48.867,38.338-52.194,69.355c-0.883,8.236,5.078,15.63,13.314,16.514
-                                    c8.238,0.884,15.631-5.077,16.515-13.314c2.148-20.025,15.056-37.182,33.685-44.771c27.866-11.354,59.771,2.079,71.124,29.943
-                                    c5.5,13.498,5.414,28.33-0.242,41.764c-5.655,13.434-16.204,23.86-29.701,29.359c-7.672,3.126-11.357,11.88-8.231,19.552
-                                    c2.371,5.818,7.978,9.345,13.896,9.344c1.885,0,3.802-0.357,5.654-1.112c20.919-8.523,37.267-24.684,46.032-45.502
-                                    c8.765-20.819,8.897-43.806,0.374-64.725C290.763,128.856,241.317,108.043,198.131,125.633z" />
-                    </g>
-                </svg>
-                <!-- <img src="https://v0.dev/placeholder.svg" alt="" class="link-icon"> -->
-                <p>
-                    {{ $link->title }}
-                </p>
-            </a>
-        @endforeach
+
+                    @if ($link->image)
+                        <img src="{{asset($link->image->path) }}" height="80px" width="80px" class="link-icon" />
+                    @else
+                        <svg fill="#fff" height="80px" width="80px" class="link-icon" version="1.1" id="Capa_1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 0 392.62 392.62" xml:space="preserve">
+                            <g>
+                                <path
+                                    d="M232.756,196.855c-7.949-2.321-16.282,2.233-18.609,10.184c-5.613,19.181-21.23,33.669-40.757,37.813
+                                                                        c-29.202,6.202-58.008-12.521-64.205-41.727s12.521-58.009,41.727-64.206c8.104-1.719,13.279-9.683,11.56-17.786
+                                                                        c-1.72-8.104-9.683-13.284-17.787-11.56c-45.387,9.631-74.477,54.392-64.846,99.778c8.387,39.525,43.41,66.688,82.293,66.688
+                                                                        c5.767,0,11.624-0.599,17.486-1.843c30.34-6.437,54.604-28.942,63.322-58.732C245.267,207.514,240.708,199.182,232.756,196.855z" />
+                                <path
+                                    d="M198.131,125.633c-28.867,11.763-48.867,38.338-52.194,69.355c-0.883,8.236,5.078,15.63,13.314,16.514
+                                                                        c8.238,0.884,15.631-5.077,16.515-13.314c2.148-20.025,15.056-37.182,33.685-44.771c27.866-11.354,59.771,2.079,71.124,29.943
+                                                                        c5.5,13.498,5.414,28.33-0.242,41.764c-5.655,13.434-16.204,23.86-29.701,29.359c-7.672,3.126-11.357,11.88-8.231,19.552
+                                                                        c2.371,5.818,7.978,9.345,13.896,9.344c1.885,0,3.802-0.357,5.654-1.112c20.919-8.523,37.267-24.684,46.032-45.502
+                                                                        c8.765-20.819,8.897-43.806,0.374-64.725C290.763,128.856,241.317,108.043,198.131,125.633z" />
+                            </g>
+                        </svg>
+                    @endif
+
+                    <!-- <img src="https://v0.dev/placeholder.svg" alt="" class="link-icon"> -->
+                    <p style="text-transform: capitalize;">
+                        
+                        {{ Str::limit( $link->title, 100, '...') }}
+                    </p>
+                </a>
+            @endforeach
+        </div>
     </div>
 
 
 
-
-
-
-    <a
-    href="/"
-    class="visit-websit">
+    <a href="/" class="visit-websit">
         <svg height="40px" width="40px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
-                                <circle style="fill:#2196F3;" cx="256" cy="256" r="244.494" />
-                                <path style="fill:#231F20;" d="M512,256c0-68.38-26.63-132.668-74.981-181.019C388.668,26.629,324.38,0,256,0
+            <circle style="fill:#2196F3;" cx="256" cy="256" r="244.494" />
+            <path style="fill:#231F20;" d="M512,256c0-68.38-26.63-132.668-74.981-181.019C388.668,26.629,324.38,0,256,0
                         C187.619,0,123.332,26.629,74.98,74.981C26.629,123.332,0,187.62,0,256s26.629,132.668,74.981,181.02
                         C123.332,485.371,187.619,512,256,512c68.38,0,132.668-26.629,181.019-74.98C485.37,388.668,512,324.38,512,256z M471.909,343.53
                         c-19.928-18.858-45.447-32.163-73.256-41.424c1.522-15.065,2.31-30.482,2.31-46.11c0-15.627-0.788-31.041-2.31-46.105

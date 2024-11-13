@@ -13,7 +13,7 @@ class CreateLinksTable extends Migration
         Schema::create('links', function (Blueprint $table) {
             $table->id();
             
-            $table->string('title')->unique();
+            $table->string('title');
 
             $table->foreignId('user_id')->constrained()->cascadeOnDelete(); // Foreign key to users table
             $table->string('path')->unique(); // Shortened path (e.g., 2KrCKI2qrz)

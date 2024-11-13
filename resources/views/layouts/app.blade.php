@@ -9,33 +9,42 @@
 
 
 
-    <title>@yield('title', 'Cool Link - كول لينكس')</title>
+    <title>
+        @yield('title', 'Cool Link - كول لينكس')</title>
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 
 
-    <link rel="shortcut icon" href="{{asset("/statics/logo.png")}}" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{{asset("statics/logo.png")}}" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap"
+    rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('style.css') }}">
-    @vite('resources/css/app.css')
+    <link rel="stylesheet" href="{{ asset('css/customScroll.css') }}">
+
+
+    <link rel="stylesheet" href="{{asset('css/style.css')}}" />
+    <link rel="stylesheet" href="{{asset('build/assets/app-BCAh5zKI.css')}}" />
+    <script src="{{asset('build/assets/app-BjCBnTiP.js')}}"></script>
+
+<!-- 
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite('resources/css/app.css') -->
     <!-- GSAP and ScrollTrigger Scripts -->
 
 </head>
 
 <body class="antialiased rtl">
+
     <!-- خلفية متحركة -->
-    <header class="h-10 sm:h-16 flex items-center w-full
-            fixed top-0 z-50 bg-blue-500
-            ">
+    <header class="h-16 flex items-center w-full fixed top-0 z-50 bg-white dark:bg-gray-900">
         <div class="container mx-auto px-6 flex items-center justify-between">
             <a href="/" class="uppercase text-gray-800 dark:text-white font-black text-3xl">
                 <img src="./statics/logo.png" alt="cool links">
             </a>
             <div class="flex items-center">
-                <nav class="font-sen text-gray-800 dark:text-white uppercase text-lg lg:flex items-center hidden"
-                    id="menu">
+                <!-- Menu for large screens -->
+                <nav class="text-gray-800 uppercase text-lg lg:flex items-center hidden" id="menu">
                     <a href="/" class="py-2 px-6 flex">
                         الرئيسية
                     </a>
@@ -45,34 +54,80 @@
                     <a href="/#how-to-use" class="py-2 px-6 flex">
                         كيفة الاستخدام
                     </a>
-                    <span href="#" class="w-40">
+                    <span href="#" class="w-40"></span>
 
-                    </span>
-                    <a href="/login" class="py-2 px-6 flex">
-                        سجيل الدخول
-                    </a>
+                    @auth
+                        <a href="{{ route('profile') }}" class="flex gap-2 justify-center items-center ltr">
+                            <span title="{{ auth()->user()->name }}"
+                                class="mx-auto flex justify-center w-[50px] h-[50px] bg-white rounded-full bg-cover bg-center bg-no-repeat"
+                                style="background-image: url('{{ auth()->user()->image ?? asset('statics/profile.svg') }}');">
+                            </span>
+                        </a>
+                    @else
+                        <a href="/login" class="py-2 px-6 flex">
+                            سجيل الدخول
+                        </a>
+                    @endauth
                 </nav>
-                <button class="lg:hidden flex flex-col ml-4" id="menu-btn">
-                    <span class="w-6 h-1 bg-gray-800 dark:bg-white mb-1">
-                    </span>
-                    <span class="w-6 h-1 bg-gray-800 dark:bg-white mb-1">
-                    </span>
-                    <span class="w-6 h-1 bg-gray-800 dark:bg-white mb-1">
-                    </span>
+
+                <!-- Mobile menu button -->
+                <button class="lg:hidden flex flex-col ml-4" id="menu-btn" onclick="toggleMenu()">
+                    <span class="w-6 h-1 bg-gray-800 dark:bg-white mb-1"></span>
+                    <span class="w-6 h-1 bg-gray-800 dark:bg-white mb-1"></span>
+                    <span class="w-6 h-1 bg-gray-800 dark:bg-white mb-1"></span>
                 </button>
             </div>
         </div>
+
+        <!-- Mobile menu overlay -->
+        <div id="mobile-menu"
+            class="fixed inset-0 bg-gray-800 bg-opacity-90 text-white flex flex-col p-8 transform translate-x-full transition-transform duration-300 lg:hidden">
+            <div class="flex justify-between items-center mb-4">
+                <!-- Logo or title on the right (optional) -->
+                <span></span>
+                <!-- Close button on the left -->
+                <button onclick="toggleMenu()" class="text-4xl">
+                    &times;
+                </button>
+
+            </div>
+
+            <!-- Menu items aligned to the right -->
+            <div class="flex flex-col items-start border-r-2 border-blue-600">
+                <a href="/" class="my_link py-2 px-6 text-lg mt-4">
+                    الرئيسية
+                </a>
+                <a href="/contact" class="my_link py-2 px-6 text-lg mt-4">
+                    تواصل معنا
+                </a>
+                <a href="/#how-to-use" class="my_link py-2 px-6 text-lg mt-4">
+                    كيفة الاستخدام
+                </a>
+
+                @auth
+                    <a href="{{ route('profile') }}" class="my_link py-2 px-6 text-lg flex items-center gap-2 mt-10">
+                        <span title="{{ auth()->user()->name }}"
+                            class="w-[50px] h-[50px] bg-white rounded-full bg-cover bg-center bg-no-repeat"
+                            style="background-image: url('{{ auth()->user()->image ?? asset('statics/profile.svg') }}');">
+                        </span>
+                        {{ auth()->user()->name }}
+                    </a>
+                @else
+                    <a href="/login" class="my_link py-2 px-6 text-lg">
+                        سجيل الدخول
+                    </a>
+                @endauth
+            </div>
+        </div>
     </header>
+
+
 
     <!-- Main Content -->
     @yield('content')
 
 
-
-
-
-
-    {{-- fooooooter  --}}
+    {{-- fooooooter --}}
     <!-- القسم الأخير (الدعوة للإجراء) -->
     <footer class="bg-gray-800 text-white py-4 flex flex-wrap
            items-center justify-evenly
@@ -91,13 +146,49 @@
 
 
         <div class="text-center">
+
+
             <p class="text-lg font-semibold">ابدأ في إنشاء صفحتك اليوم!</p>
-            <a href="/login"
-                class="mt-4 inline-block bg-blue-600 py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">سجل
-                الآن</a>
+
+            @auth
+                <a href="{{ route('profile') }}"
+                    class="mt-4 inline-block bg-blue-600 py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+                    إدارة صفحتك
+                </a>
+            @else
+
+            <a href="{{ route('login') }}"
+                class="mt-4 inline-block bg-blue-600 py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+                سجل الآن
+            </a>
+            @endguest
+
+
+
         </div>
     </footer>
-    {{-- fooooooter  --}}
+    {{-- fooooooter --}}
+
+
+    <script>
+
+        const menu = document.getElementById('mobile-menu');
+
+        // Utiliser querySelectorAll pour sélectionner les éléments avec la balise "my_link"
+        document.querySelectorAll(".my_link").forEach(element => {
+            element.onclick = () => {
+                menu.classList.toggle('translate-x-full');
+                menu.classList.toggle('translate-x-0');
+            };
+        });
+
+        function toggleMenu() {
+
+
+            menu.classList.toggle('translate-x-full');
+            menu.classList.toggle('translate-x-0');
+        }
+    </script>
 </body>
 
 </html>

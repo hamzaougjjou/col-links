@@ -42,7 +42,7 @@
       transform easy-in-out">
     <div class="h-64 overflow-hidden">
 
-      @if(!auth()->user()->cover_image)
+      @if(!$user->cover_image)
       <svg class="w-full h-[150%] border-2 border-gray-300
       -mt-5 bg-gray-500/10 object-contains
       " fill="#ff9fdf88" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
@@ -64,14 +64,15 @@
       </g>
       </svg>
     @else
-      <img class="w-full" src="{{asset(auth()->user()->cover_image)}}" alt="" />
+      <img class="w-full" src="{{asset($user->cover_image)}}" alt="" />
     @endif
     </div>
-    <div class="flex justify-center px-5  -mt-12">
+    <div class="flex justify-center px-5  -mt-12 relative">
 
-      @if(auth()->user()->image)
-      <img class="h-32 w-32 bg-white  rounded-full" src="{{asset(auth()->user()->image)}}"
-      alt="{{auth()->user()->name}}" />
+      @include('profile.copy-url')
+
+      @if($user->image)
+      <img class="h-32 w-32 bg-white  rounded-full" src="{{asset($user->image)}}" alt="{{$user->name}}" />
     @else
       <svg class="h-32 w-32 bg-white/50 rounded-full" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
       <path fill="#000000"
@@ -83,19 +84,19 @@
       <div class="text-center px-14">
         <h2 class="text-gray-800 text-3xl font-bold">
           @auth
-        {{auth()->user()->name}}
+        {{$user->name}}
       @endauth
         </h2>
         <p class="text-gray-400 mt-2 hover:text-blue-500
         cursor-pointer
         ">
           @auth
-        {{auth()->user()->title}}
+        {{$user->title}}
       @endauth
           </a>
         <p class="mt-2 text-gray-500 text-sm">
           @auth
-        {{auth()->user()->about}}
+        {{$user->about}}
       @endauth
 
         </p>
@@ -103,17 +104,22 @@
 
 
       <div>
-        <a 
-        target="_blank"
-        href="/{{auth()->user()->profile_link->user_url}}">
-          view ulr
-        </a>
-      </div>
-      <button class="mt-4 bg-[#D53692] text-white pt-2 pb-3
+        <button class="mt-4 bg-[#D53692] text-white pt-2 pb-3
         hover:scale-105 mx-12
         px-4 rounded-full hover:bg-[#D53692]  transition" id="btn_open_update_profile_container">تعديل
-        الملف الشخصي
-      </button>
+          الملف الشخصي
+        </button>
+        <a class="mt-4 bg-[#03b3e9] text-white pt-2 pb-3
+        hover:scale-105
+        px-4 rounded-full hover:bg-[#06a3d3]  transition" target="_blank" href="/{{$user->profile_link->user_url}}">
+          زيارة صفحتك الخاصة
+        </a>
+
+
+
+      </div>
+
+
 
 
       <hr class="mt-6" />
@@ -121,14 +127,14 @@
         <div class="text-center w-1/2 p-4">
           <p><span class="font-semibold text-black">
 
-          {{auth()->user()->profile_link->visits}}
+              {{$user->profile_link->visits}}
               زيارة
             </span></p>
         </div>
         <div class="border"></div>
         <div class="text-center w-1/2 p-4">
           <p> <span class="font-semibold text-black">
-             {{ $links_click_count }}
+              {{ $links_click_count }}
               ضغط على الروابط
             </span></p>
         </div>
@@ -142,202 +148,120 @@
               z-50 hidden justify-center items-center
               " id="update_profile_container">
 
-    <section class="bg-red-100 p-6 rounded-md my-2 shadow-lg
-      overflow-y-auto w-full max-w-[600px] max-h-[calc(100vh-80px)]
-      relative mx-2 h-fit
-      ">
-
-      <svg fill="#ffffff" height="35px" width="35px" version="1.1" class="absolute top-1 left-1 bg-red-600 rounded-full p-2
-    cursor-pointer
-      " id="btn_close_update_profile_container" xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
-        <g>
-          <g>
-            <polygon points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512 
-			512,452.922 315.076,256 		" />
-          </g>
-        </g>
-      </svg>
-
-      <div>
-        <h1 class="lg:text-3xl md:text-2xl sm:text-xl xs:text-xl font-serif font-extrabold mb-2 text-gray-800">
-          الملف الشخصي
-        </h1>
-        <h2 class="text-gray-500 text-sm mb-4">تعديل الملف الشخصي</h2>
-        <form>
-          <!-- صورة الغلاف -->
-          <div
-            class="w-full rounded-sm bg-[url('https://images.unsplash.com/photo-1449844908441-8829872d2607?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw2fHxob21lfGVufDB8MHx8fDE3MTA0MDE1NDZ8MA&ixlib=rb-4.0.3&q=80&w=1080')] bg-cover bg-center bg-no-repeat items-center">
-            <!-- صورة الملف الشخصي -->
-            <div
-              class="mx-auto flex justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-[url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw4fHxwcm9maWxlfGVufDB8MHx8fDE3MTEwMDM0MjN8MA&ixlib=rb-4.0.3&q=80&w=1080')] bg-cover bg-center bg-no-repeat">
-              <div class="bg-white rounded-full w-6 h-6 text-center ml-28 mt-4">
-                <input type="file" name="profile" id="upload_profile" hidden required>
-                <label for="upload_profile">
-                  <svg data-slot="icon" class="w-6 h-5 text-blue-700" fill="none" stroke-width="1.5"
-                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z">
-                    </path>
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"></path>
-                  </svg>
-                </label>
-              </div>
-            </div>
-            <div class="flex justify-end">
-              <!--  -->
-              <input type="file" name="profile" id="upload_cover" hidden required>
-              <div class="bg-white flex items-center gap-1 rounded-tl-md px-2 text-center font-semibold">
-                <label for="upload_cover" class="inline-flex items-center gap-1 cursor-pointer">غلاف
-                  <svg data-slot="icon" class="w-6 h-5 text-blue-700" fill="none" stroke-width="1.5"
-                    stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z">
-                    </path>
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"></path>
-                  </svg>
-                </label>
-              </div>
-            </div>
-          </div>
-          <h2 class="text-center mt-1 font-semibold text-gray-500">تحميل صورة الملف الشخصي وصورة الغلاف</h2>
-          <div class="flex flex-wrap gap-2 justify-center w-full">
-            <div class="w-full mb-4 mt-6">
-              <label for="" class="mb-2 text-gray-500">الاسم :</label>
-              <input type="text" class="mt-2 p-4 w-full border-2 rounded-lg" placeholder="الاسم الأول">
-            </div>
-            <div class="w-full mb-4 lg:mt-6">
-              <label for="" class="text-gray-500">الاسم الوظيفي</label>
-              <input type="text" class="mt-2 p-4 w-full border-2 rounded-lg" placeholder="مطور ويب | مصمم">
-            </div>
-          </div>
-
-          <div class="block sm:flex xs:flex gap-2 justify-center w-full">
-            <div class="w-full">
-              <h3 class="text-gray-500 mb-2">الجنس</h3>
-              <select class="w-full text-gray-500 border-2 rounded-lg p-4 pl-2 pr-2">
-                <option disabled value="">اختر الجنس</option>
-                <option value="Male">ذكر</option>
-                <option value="Female">أنثى</option>
-              </select>
-            </div>
-            <div class="w-full">
-              <h3 class="text-gray-500 mb-2">تاريخ الميلاد</h3>
-              <input type="date" class="text-gray-500 p-4 w-full border-2 rounded-lg">
-            </div>
-          </div>
-
-          <div class="w-full mb-4 lg:mt-6">
-            <label for="" class="text-gray-500">نص تعريفي</label>
-            <textarea type="text" class="mt-2 p-4 w-full border-2 rounded-lg"
-              placeholder="نص تعريفي عنك ..."></textarea>
-          </div>
-
-          <p class="text-sm">
-            <span class="text-red-600">
-              (*)
-            </span>
-            : حقول اجبارية
-          </p>
-
-          <div class="w-full mt-4">
-            <button type="submit" class="px-4 pt-1 pb-2 bg-[#2DD881] text-lg font-semibold
-                rounded-md hover:bg-green-700 hover:text-white
-                ">إرسال</button>
-          </div>
-        </form>
-      </div>
-
-    </section>
+    @include("profile.edit")
 
 
   </section>
 
 
-  <!-- محتوى الصفحة -->
-  <div class=" max-w-6xl mx-auto p-8 mt-12">
-    <!-- إدارة الروابط -->
+  <!-- إدارة الروابط -->
+  <div class="max-w-[1500px] mx-auto p-8 mt-12">
     <section class="mb-12">
       <h3 class="text-3xl font-bold mb-6 text-[#D53692]">اظافةرابط جديد</h3>
-      <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+      <!-- Message Popup -->
+      @if(session('message'))
+      <div
+      class="fixed bottom-5 right-5 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-md shadow-lg transition-opacity duration-300"
+      id="success-popup">
+      {{ session('message') }}
+      </div>
+    @endif
+
+      @if ($errors->any())
+      <div
+      class="z-50 fixed bottom-5 right-5 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-md shadow-lg transition-opacity duration-300"
+      id="error-popup">
+      <ul>
+        @foreach ($errors->all() as $error)
+      <li>
+      {{ $error }}
+      </li>
+    @endforeach
+      </ul>
+      </div>
+    @endif
+
+
+      <div class="bg-white/50 p-6 rounded-xl  w-full">
+        <div class="w-full">
           <!-- رابط جديد -->
-          <form id="linkForm" class="flex items-center gap-2 mb-4">
+          <form class="flex flex-col gap-4 mb-4 w-full" method="POST" action="{{ route('links.store') }}"
+            enctype="multipart/form-data">
+            @csrf
 
-            <!-- زر لإظهار النافذة المنبثقة -->
-            <button onclick="openPopup()" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition
-              w-[200px]
-              ">
-              اختر المنصة
+            <!-- Image Selection Modal -->
+            <div id="select_image_container"
+              class="fixed w-screen h-screen bg-black/60 top-0 left-0 z-50 justify-center items-center hidden">
+              <section
+                class="bg-white rounded-lg shadow-lg max-h-[800px] h-screen max-w-[600px] w-full py-4 px-4 flex flex-col">
+                <!-- Images Section -->
+                @if (count($images) != 0)
+          <p class="text-green-500 font-bold text-lg text-center mb-4">اختر صورة</p>
+        @endif
+
+                <section
+                  class="flex-1 w-full overflow-x-auto flex flex-wrap gap-6 p-4 justify-evenly custom-scroll h-[70%]">
+                  @if (count($images) == 0)
+            <p class="text-center text-2xl text-red-500 font-bold">لايوج اي صور مقترحة</p>
+          @endif
+
+                  @foreach ($images as $image)
+            <img src="{{ asset($image->path) }}" onclick="selectImage(this, '{{ $image->id }}')"
+            class="sugg-image w-20 h-20 cursor-pointer object-cover border-2 border-gray-300 rounded-md transition duration-300 hover:shadow-lg" />
+          @endforeach
+                </section>
+                <!-- End Images Section -->
+
+                <section class="h-[20%] flex flex-col">
+                  <div class="flex-1">
+                    <span id="upload_image_container">
+                      <p class="text-2xl py-2">او ارفع صورة</p>
+                      <input type="file" accept="image/*" name="image"
+                        class="mt-2 p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-400" />
+
+                      <input type="hidden" name="image_id" id="link_image_id" value="">
+
+                    </span>
+                  </div>
+
+                  <div class="flex justify-between mt-4">
+                    <span></span>
+                    <p onclick="toggleSelectImage('hidden')" type="button"
+                      class="bg-green-600 text-white cursor-pointer py-2 px-4 rounded hover:bg-green-700 transition w-fit">
+                      تأكيد
+                    </p>
+                  </div>
+                </section>
+              </section>
+            </div>
+            <!-- End Image Selection Modal -->
+
+            <!-- Show Image Selection Button -->
+            <p onclick="toggleSelectImage('flex')"
+              class="bg-blue-600 text-white py-2 px-4 text-center rounded hover:bg-blue-700 transition w-[200px] cursor-pointer">
+              اختر الصورة
+            </p>
+
+            <div class="flex gap-8 flex-wrap">
+            <!-- Title Input -->
+            <input type="text" placeholder="العنوان" name="title" required
+              class="flex-1 max-w-[400px] min-w-[300px] p-3 border border-gray-300 rounded focus:outline-none focus:border-blue-400" />
+
+            <!-- URL Input -->
+            <input type="text" id="linkUrl" placeholder="أدخل رابطًا جديدًا" name="url" required
+              class="flex-1 max-w-[400px] min-w-[300px] p-3 border border-gray-300 rounded focus:outline-none focus:border-blue-400" />
+</div>
+            <!-- Submit Button -->
+            <button type="submit" class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition w-fit">
+              حفظ الرابط
             </button>
-
-
-            <input type="text" id="linkUrl" placeholder="أدخل رابطًا جديدًا"
-              class="w-full p-2 border border-gray-600 rounded focus:outline-none focus:border-blue-400" required>
-            <button type="submit"
-              class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition">إضافة</button>
           </form>
         </div>
       </div>
     </section>
 
 
-
-
-    <!-- النافذة المنبثقة -->
-    <div id="popup"
-      class="fixed top-0 left-0 w-full h-full justify-center items-center bg-black bg-opacity-50 hidden">
-      <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-        <button class="text-2xl font-bold mb-4">اختر منصة</bu>
-
-          <!-- قائمة الأيقونات للاختيار -->
-          <div class="grid grid-cols-3 gap-4 mb-4">
-            <button onclick="selectPlatform('Facebook', 'fa-facebook')">
-              <i class="fab fa-facebook text-3xl text-blue-600"></i>
-            </button>
-            <button onclick="selectPlatform('Instagram', 'fa-instagram')">
-              <i class="fab fa-instagram text-3xl text-pink-600"></i>
-            </button>
-            <button onclick="selectPlatform('Twitter', 'fa-twitter')">
-              <i class="fab fa-twitter text-3xl text-blue-400"></i>
-            </button>
-            <!-- يمكنك إضافة المزيد من الأيقونات هنا -->
-          </div>
-
-          <!-- إدخال عنوان الرابط -->
-          <label for="linkTitle" class="block mb-2">أدخل عنوان الرابط:</label>
-          <input type="text" id="linkTitle" placeholder="مثال: صفحتي على الفيسبوك"
-            class="w-full p-2 border border-gray-300 rounded mb-4">
-
-          <!-- زر الإضافة -->
-          <button onclick="addLink()"
-            class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition w-full">إضافة</button>
-
-          <!-- زر إغلاق -->
-          <button onclick="closePopup()"
-            class="mt-4 bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition w-full">إغلاق</button>
-      </div>
-    </div>
-
-    <!-- إحصائيات النقرات -->
-    <!-- <section class="w-full py-4 my-4">
-      <h3 class="text-3xl font-bold py-6
-      px-2 text-center
-      ">إحصائيات الزيارات و النقرات</h3>
-      <div class=" justify-center flex-wrap
-      container mx-auto flex gap-8
-      ">
-        <canvas class="p-2 rounded-md m-1 shadow-lg
-        max-w-[600px] max-h-[300px]
-        " id="visitsChart"></canvas>
-        <canvas class="p-2 rounded-md m-1 shadow-md
-        max-w-[600px] max-h-[300px]
-        " id="clicksChart"></canvas>
-      </div>
-
-    </section> -->
 
 
     <section class="mt-4">
@@ -351,58 +275,72 @@
           max-w-[1500px] mx-auto my-6
           ">
 
-          @foreach ( auth()->user()->links as $link)
-         
+
+        @if (count($user->links) == 0)
+      <p class="text-center text-2xl text-red-500 font-bold">لايوجد اي روابط</p>
+    @endif
+        @foreach($user->links->sortByDesc('created_at') as $link)
 
         <!-- Card -->
-        <li class="bg-[#3FE5CF] p-3 rounded-lg shadow-lg max-w-[350px]
-            w-full
-            ">
+        <li class="bg-[#3FE5CF] p-3 rounded-lg shadow-lg max-w-[300px]
+        w-full
+        ">
 
           <div class="flex flex-col gap-1">
-            <p class="text-lg font-semibold">
+          <p class="text-lg font-semibold">
             {{$link->title}}
-            </p>
-            <span class="text-blue-400 truncate max-w-xs">
-              {{  $link->original_url }}
-            </span>
-            <span class="text-sm text-gray-800">عدد النقرات:    {{  $link->clicks }}</span>
+          </p>
+          <span class="text-blue-400 truncate max-w-xs">
+            {{  $link->original_url }}
+          </span>
+          <span class="text-sm text-gray-800">عدد النقرات:
+            {{  $link->clicks }}
+          </span>
           </div>
 
           <div class="mt-2 flex justify-between items-center">
 
-            <svg fill="#ffffff" class="bg-blue-500 hover:bg-blue-600 text-white p-1 pl-2 rounded-md cursor-pointer"
-              onclick="toggleModal()" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" width="30px" height="30px" viewBox="0 0 494.936 494.936"
-              xml:space="preserve">
-              <g>
-                <g>
-                  <path d="M389.844,182.85c-6.743,0-12.21,5.467-12.21,12.21v222.968c0,23.562-19.174,42.735-42.736,42.735H67.157
-                  c-23.562,0-42.736-19.174-42.736-42.735V150.285c0-23.562,19.174-42.735,42.736-42.735h267.741c6.743,0,12.21-5.467,12.21-12.21
-                  s-5.467-12.21-12.21-12.21H67.157C30.126,83.13,0,113.255,0,150.285v267.743c0,37.029,30.126,67.155,67.157,67.155h267.741
-                  c37.03,0,67.156-30.126,67.156-67.155V195.061C402.054,188.318,396.587,182.85,389.844,182.85z" />
-                  <path d="M483.876,20.791c-14.72-14.72-38.669-14.714-53.377,0L221.352,229.944c-0.28,0.28-3.434,3.559-4.251,5.396l-28.963,65.069
-                  c-2.057,4.619-1.056,10.027,2.521,13.6c2.337,2.336,5.461,3.576,8.639,3.576c1.675,0,3.362-0.346,4.96-1.057l65.07-28.963
-                  c1.83-0.815,5.114-3.97,5.396-4.25L483.876,74.169c7.131-7.131,11.06-16.61,11.06-26.692
-                  C494.936,37.396,491.007,27.915,483.876,20.791z M466.61,56.897L257.457,266.05c-0.035,0.036-0.055,0.078-0.089,0.107
-                  l-33.989,15.131L238.51,247.3c0.03-0.036,0.071-0.055,0.107-0.09L447.765,38.058c5.038-5.039,13.819-5.033,18.846,0.005
-                  c2.518,2.51,3.905,5.855,3.905,9.414C470.516,51.036,469.127,54.38,466.61,56.897z" />
-                </g>
-              </g>
-            </svg>
+          <span>
+            <!-- <svg fill="#ffffff" class="bg-blue-500 hover:bg-blue-600 text-white p-1 pl-2 rounded-md cursor-pointer"
+        onclick="toggleModal()" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" width="30px" height="30px" viewBox="0 0 494.936 494.936"
+        xml:space="preserve">
+        <g>
+        <g>
+        <path d="M389.844,182.85c-6.743,0-12.21,5.467-12.21,12.21v222.968c0,23.562-19.174,42.735-42.736,42.735H67.157
+        c-23.562,0-42.736-19.174-42.736-42.735V150.285c0-23.562,19.174-42.735,42.736-42.735h267.741c6.743,0,12.21-5.467,12.21-12.21
+        s-5.467-12.21-12.21-12.21H67.157C30.126,83.13,0,113.255,0,150.285v267.743c0,37.029,30.126,67.155,67.157,67.155h267.741
+        c37.03,0,67.156-30.126,67.156-67.155V195.061C402.054,188.318,396.587,182.85,389.844,182.85z" />
+        <path d="M483.876,20.791c-14.72-14.72-38.669-14.714-53.377,0L221.352,229.944c-0.28,0.28-3.434,3.559-4.251,5.396l-28.963,65.069
+        c-2.057,4.619-1.056,10.027,2.521,13.6c2.337,2.336,5.461,3.576,8.639,3.576c1.675,0,3.362-0.346,4.96-1.057l65.07-28.963
+        c1.83-0.815,5.114-3.97,5.396-4.25L483.876,74.169c7.131-7.131,11.06-16.61,11.06-26.692
+        C494.936,37.396,491.007,27.915,483.876,20.791z M466.61,56.897L257.457,266.05c-0.035,0.036-0.055,0.078-0.089,0.107
+        l-33.989,15.131L238.51,247.3c0.03-0.036,0.071-0.055,0.107-0.09L447.765,38.058c5.038-5.039,13.819-5.033,18.846,0.005
+        c2.518,2.51,3.905,5.855,3.905,9.414C470.516,51.036,469.127,54.38,466.61,56.897z" />
+        </g>
+        </g>
+        </svg> -->
+          </span>
+          <form action="{{ route('links.destroy', $link->id) }}" method="POST" style="display:inline;">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit" onclick="return confirm('Are you sure you want to delete this link?')">
             <svg class="bg-red-500 hover:bg-red-600 text-white p-1 pl-2 rounded-md cursor-pointer" width="30px"
-              height="30px" onclick="toggleModal()" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4 7H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M6 7V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V7" stroke="#ffffff"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#ffffff"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
+            </button>
+          </form>
 
           </div>
 
         </li>
-        @endforeach
+    @endforeach
 
         <!-- Modal -->
         <div id="updateModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden items-center justify-center z-50">
@@ -424,115 +362,67 @@
 
     </section>
     <br>
+    @include('components.logout')
+
 
   </div>
 
-  <!-- <script>
 
-    const visitsChart_ctx = document.getElementById('visitsChart').getContext('2d');
-    const clicksChart_ctx = document.getElementById('clicksChart').getContext('2d');
-
-    // Gradient for the first dataset (Visits)
-    const gradientVisits = visitsChart_ctx.createLinearGradient(0, 0, 0, 400);
-    gradientVisits.addColorStop(0, 'rgba(222, 0, 0, 0.5)');
-    gradientVisits.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-    // Gradient for the second dataset (Clicks)
-    const gradientClicks = clicksChart_ctx.createLinearGradient(0, 0, 0, 400);
-    gradientClicks.addColorStop(0, 'rgba(0, 222, 0, 0.4)');
-    gradientClicks.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-    const config = {
-      type: 'line',
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-          {
-            label: 'Clicks',  // Second line (Clicks)
-            data: [45, 39, 60, 71, 36, 35, 20],
-            fill: true,
-            backgroundColor: gradientClicks,
-            borderColor: "#FE5F00",
-            tension: 0.3,
-            borderWidth: 1,  // Adjust line width here
-            pointRadius: 1,          // Adjust point size here
-            pointHoverRadius: 1      // Adjust point size on hover
-          }
-        ]
-      },
-      options: {
-        scales: {
-          x: {
-            grid: {
-              display: false
-            }
-          },
-          y: {
-            grid: {
-              display: false
-            }
-          }
-        },
-
-        plugins: {
-          legend: {
-            display: false // Enables legend for the datasets
-          }
-        }
-      }
-    };
-
-    const clicks_config = {
-      type: 'line',
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-          {
-            label: 'Clicks',  // Second line (Clicks)
-            data: [45, 39, 60, 71, 36, 35, 20],
-            fill: true,
-            backgroundColor: gradientClicks,
-            borderColor: "#FE5F00",
-            tension: 0.3,
-            borderWidth: 1,  // Adjust line width here
-            pointRadius: 1,          // Adjust point size here
-            pointHoverRadius: 1      // Adjust point size on hover
-          }
-        ]
-      },
-      options: {
-        scales: {
-          x: {
-            grid: {
-              display: false
-            }
-          },
-          y: {
-            grid: {
-              display: false
-            }
-          }
-        },
-
-        plugins: {
-          legend: {
-            display: !false // Enables legend for the datasets
-          }
-        }
-      }
-    };
-
-    new Chart(visitsChart_ctx, config);
-    new Chart(clicksChart_ctx, clicks_config);
-  </script> -->
-
-  <script src="{{asset('./js/profile.js')}}"></script>
+  <script src="{{asset('/js/profile.js')}}"></script>
   <script>
+    const sugg_images = document.getElementsByClassName("sugg-image");
+    const upload_image_container = document.getElementById("upload_image_container");
+    const link_image_id = document.getElementById("link_image_id");
+
+    const selectImage = (item, image_id) => {
+
+      for (let i = 0; i < sugg_images.length; i++) {
+        if (item != sugg_images[i])
+          sugg_images[i].classList.remove("selected_link_image");
+      }
+
+      item.classList.toggle("selected_link_image");
+
+      if (item.classList.contains("selected_link_image")) {
+        upload_image_container.classList.add("hidden");
+        link_image_id.value = image_id;
+      } else {
+        upload_image_container.classList.remove("hidden");
+        link_image_id.value = "";
+      }
+      // alert(image_id)
+    }
+
     function toggleModal() {
       const modal = document.getElementById('updateModal');
       modal.classList.toggle('hidden');
       modal.classList.toggle('flex');
     }
+
+    function toggleSelectImage(new_class) {
+      const select_image_container = document.getElementById('select_image_container');
+      select_image_container.classList.remove('hidden');
+      select_image_container.classList.remove('flex');
+
+      select_image_container.classList.add(new_class);
+    }
+  </script>
+
+
+
+  <!-- Add this script at the bottom of your Blade file -->
+  <script>
+    // Automatically hide the pop-up after a few seconds
+    setTimeout(function () {
+      const successPopup = document.getElementById('success-popup');
+      const errorPopup = document.getElementById('error-popup');
+      if (successPopup) {
+        successPopup.style.display = 'none';
+      }
+      if (errorPopup) {
+        errorPopup.style.display = 'none';
+      }
+    }, 10000); // Adjust the time in milliseconds (5000 = 5 seconds)
   </script>
 
   @endsection

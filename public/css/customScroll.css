@@ -1,0 +1,31 @@
+/* لتخصيص شريط التمرير لعناصر ذات الفئة custom-scroll */
+
+/* شريط التمرير للمتصفحات Webkit مثل Chrome, Safari */
+.custom-scroll::-webkit-scrollbar {
+    width: 10px; /* عرض شريط التمرير */
+    height: 10px; /* ارتفاع شريط التمرير في حالة التمرير الأفقي */
+  }
+  
+  /* خلفية مسار شريط التمرير */
+  .custom-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1; /* لون الخلفية */
+    border-radius: 10px; /* حواف دائرية */
+  }
+  
+  /* مقبض شريط التمرير */
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: #888; /* لون المقبض */
+    border-radius: 10px; /* زوايا دائرية للمقبض */
+  }
+  
+  /* لون المقبض عند التحويم */
+  .custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #555; /* لون المقبض عند التحويم */
+  }
+  
+  /* تخصيص شريط التمرير لمتصفح Firefox */
+  .custom-scroll {
+    scrollbar-color: #888 #f1f1f1; /* لون المقبض والخلفية */
+    scrollbar-width: thin; /* عرض شريط التمرير: رفيع */
+  }
+  

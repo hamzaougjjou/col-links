@@ -2,6 +2,8 @@
 
 
 
+<link rel="shortcut icon" href="{{asset("/statics/logo.png")}}" type="image/png">
+
 @section('title', 'Contact us | تواصل معنا - Cool Link - كول لينكس')
 
 
@@ -29,11 +31,10 @@
                     <div class="flex flex-wrap">
                         <div class="mb-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-5/12 lg:px-6">
 
-                            <!-- @if (session('contact_success'))
+                            @if (session('contact_success'))
                             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
                                 role="alert">
                                 <strong class="font-bold">تم ارسال رسالتك بنجاح</strong>
-                                <span class="block sm:inline">{{ session('contact_success') }}</span>
                             </div>
                             @endif
 
@@ -43,9 +44,10 @@
                                 <strong class="font-bold">Error!</strong>
                                 <span class="block sm:inline">{{ session('error') }}</span>
                             </div>
-                            @endif -->
+                            @endif
 
-                            <form action="" method="POST">
+                            <form action="{{ route('contact.submit') }}" method="POST">
+    @csrf
 
 
                                 <div class="relative mb-6" data-te-input-wrapper-init>
